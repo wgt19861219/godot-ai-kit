@@ -49,3 +49,12 @@
 - **#7 精确化(重要)**:3D headless 截图**可用**(screenshot.png 7209B / 1280×720 渲染正常)—— boundaries #7"2D 截图 headless 不可用"**严格限定 2D,3D 不受影响**。建议 boundaries #7 补注"3D 例外"。
 - F9:screenshot `analyze` 返回 image URL 而非文字描述,模型无法判读画面内容(工具层缺陷)。
 - 交互行为(移动/收集计分)需输入,headless 无法模拟 → 待人工 / Game Bridge 确认。
+
+## T6 精修(④,2026-06-17)
+
+- 性能知识 load_skill 命中:`godot-performance-optimization` **0.80** + `godot-optimization` 0.68 —— **命中度高**(性能通用、不分类 2D/3D,无盲区;与 F1/F5 的 3D 专用盲区形成正反对比)。
+- profiler snapshot 数据异常:fps=1 / **node_count=0** / draw_calls=0 —— Main.tscn 有 22 节点但 profiler 报 0 → 采样未覆盖目标场景(project 未设 `run/main_scene` → profiler 跑空)。
+- F10:profiler snapshot 不指定场景时跑空,node_count/fps/draw_calls 无意义;需项目设 `run/main_scene` 或 profiler 支持指定目标场景。
+- #4 交叉:已由 T3/T4/T5 run_and_verify 实跑 `hasErrors:false` 覆盖(validate_scripts 静态走 F6 路径 bug,以实跑为准)。
+- 鼠标旋转相机:跳过(留 v1,spec §2.4 一致;MVP 固定 SpringArm 跟随即可玩)。
+- MVP 场景极简(22 节点),性能非瓶颈。

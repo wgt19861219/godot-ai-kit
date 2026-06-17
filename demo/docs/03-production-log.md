@@ -81,8 +81,10 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 | F7 | 工具 | 🔴 | edit_node 报 success 但 .tscn 未挂 script(假成功) | enhanced 修 + 读 .tscn 复核 |
 | F8 | 工具 | 🔴 | add_node properties 设资源被静默忽略 | enhanced 支持资源 / 手写 |
 | F9 | 工具 | 🟢 | screenshot analyze 返回 image URL 非文字描述 | enhanced 返回文字描述 |
-| F10 | 工具 | 🟡 | profiler snapshot 不指定场景跑空(node_count=0) | enhanced 支持指定场景 |
+| F10 | 工具 | 🟡 | ~~profiler 跑空~~ **订正(reviewer C3)**:真根因是 project.godot `main_scene` 配错(指向 player.tscn 空骨架)→ profiler 跑空场景 node_count=0,非 profiler 不支持指定场景 | **已修** `main_scene`→Main.tscn(见 F13) |
 | F11 | 工具 | 🔴 | verify_delivery scope 参数未在 MCP 暴露 | enhanced 暴露 scope |
+| F12 | ⑤交付 | 🟡 | UI 中文字体未配置(默认字体无中文字形→tofu)+ screenshot analyze 无法判读 → "过关"视觉验收从未完成(reviewer I4) | 配中文字体或改英文;人工肉眼复核 |
+| F13 | ⑤交付 | 🔴 | project.godot `main_scene` 配错(=F10 真根因,reviewer C3);`godot --path demo` 默认跑空 player.tscn → demo 不可玩 | **已修** `main_scene`→Main.tscn |
 
 **三大关键模式**:
 1. **enhanced validation 工具门禁失效**(F4/F11):validate_gdd / verify_delivery 必需参数未在 MCP schema 暴露 → ①概念、⑤交付的 enhanced 门禁经 MCP 不可用,降级手动。这是套件工作流与 enhanced MCP 集成的核心裂缝。
@@ -92,3 +94,21 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 **正向**:load_skill 数据层稳定(query 可复现)、run_and_verify 实跑可靠(全程 hasErrors:false)、3D headless 截图可用(#7 精确化:只 2D 受限)、write_script 正常(不经 precheck 路径 bug)。
 
 抄送 Obsidian `[[GodotAIKit/wiki/load_skill]]`(主会话写)。
+
+## reviewer 终审处置(2026-06-18)
+
+独立 code-reviewer 审 merged demo(`084e9ee..03899e5`):3 Critical + 5 Important + 4 Minor。F0-F11 裁决:10 认可 / F3 部分驳回(简化引入 C2 去重副作用未追踪)/ **F10 驳回**(根因错记,已订正)。
+
+**已修(本次)**:
+- **C3(必修,阻塞验收②)**:`project.godot` `main_scene` player.tscn → **Main.tscn**。`godot --path demo` 默认入口现在跑 Main(可玩),验收②真正达成。run_and_verify 默认入口 `hasErrors:false` 确认。
+- **F10 订正**:node_count=0 真根因是 main_scene 配错(非 profiler 缺陷)—— 原记录粉饰了配置 bug,不诚实,已订正。
+- 补 **F12**(UI 中文字体/视觉验收盲区)/ **F13**(main_scene 配错=F10 真根因)。
+
+**v0.1.1 待办(reviewer 标不阻塞当前验收)**:
+- **C1**:`main.gd` 信号订阅依赖隐含的子节点 `_ready` 先于父时序(当前可玩但脆弱)→ 改收集物主动连主控,或加注释固化前提。
+- **C2**:`_on_collected` 无去重(F3 无参简化副作用)→ `collected` 加 sender 参数 + main 用 Set/Dict 去重。
+- **I1**:`player.gd` 朝向计算冗余(direction 已归一,`face!=position` 永真)+ look_at 瞬转无平滑。
+- **I2**:`move_toward` 减速帧率敏感(非 delta 归一)→ `decel=SPEED*delta*k`。
+- **I3**:`collectible` body 类型注解过窄 + 硬判断 `is CharacterBody3D` → 组优先(`is_in_group("player")`)。
+- **I4**:ScoreLabel 中文 UI 字体(=F12)+ screenshot 无法判读 → 视觉验收盲区。
+- M1-M4:风格/性能/文档完整性小项(ADR-003 主图未更新等)。

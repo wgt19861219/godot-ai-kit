@@ -4,7 +4,7 @@
 设计游戏技术架构、场景结构和模块划分，输出架构决策记录(ADR)。
 
 ## ② 知识输入
-```gdscript
+```text
 # 使用 gd-agentic 检索架构决策示例
 load_skill(query="scene split autoload signal architecture")
 ```

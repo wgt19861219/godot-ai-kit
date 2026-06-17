@@ -3,3 +3,6 @@ node_modules/
 *.tmp
 *.log
 .DS_Store
+
+# install.ps1 生成的机器特定配置(含本机绝对路径,勿提交)
+.claude/settings.json

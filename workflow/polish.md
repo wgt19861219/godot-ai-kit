@@ -4,7 +4,7 @@
 优化游戏性能、用户体验和视觉效果，确保游戏流畅运行。
 
 ## ② 知识输入
-```gdscript
+```text
 # 使用 GodotPrompter 检索性能优化方案
 load_skill(query="performance draw call")
 ```

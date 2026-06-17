@@ -4,7 +4,7 @@
 实现核心游戏功能和基础玩法，输出可运行的游戏构建。
 
 ## ② 知识输入
-```gdscript
+```text
 # 使用 gd-agentic NEVER 规则 + GodotPrompter 检索实现方案
 load_skill(query="CharacterBody3D movement NEVER")
 ```

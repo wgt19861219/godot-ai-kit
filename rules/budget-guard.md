@@ -8,10 +8,10 @@
 ## 验证方法
 ```powershell
 # 验证 script
-$content = (Get-Content D:/GitHub/godot-ai-kit/CLAUDE.md -Raw).Length
+$content = (Get-Content $PSScriptRoot/../CLAUDE.md -Raw).Length
 Write-Host "CLAUDE.md: $content bytes (限 4096)"
 
-$rules = (Get-ChildItem D:/GitHub/godot-ai-kit/rules -Recurse -Filter *.md | ForEach-Object { (Get-Content $_.FullName -Raw).Length } | Measure-Object -Sum).Sum
+$rules = (Get-ChildItem $PSScriptRoot/../rules -Recurse -Filter *.md | ForEach-Object { (Get-Content $_.FullName -Raw).Length } | Measure-Object -Sum).Sum
 Write-Host "rules/: $rules bytes (限 8192)"
 
 if ($content -gt 4096 -or $rules -gt 8192) {

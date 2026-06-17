@@ -1,0 +1,17 @@
+config_version=5
+
+[application]
+
+config/name="godot-ai-kit demo"
+config/description="3D 收集物平台游戏 demo(godot-ai-kit ①② 阶段产出)"
+run/main_scene="res://scenes/player.tscn"
+config/features=Vector4(4, 5, 0, 0)
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[rendering]
+
+renderer/rendering_method="forward_plus"

@@ -25,7 +25,7 @@ enhanced 子模块 `.claude/rules/` 实际包含 **5 个规则文件**（2026-06
 ## 使用指南
 **详细规则在 enhanced 子模块的 `.claude/rules/` 目录中，按需读取上述5个文件。**
 
-**其他子系统规则**：particles/tilemap/animation/navigation/material//audio/signal 等工具的规则散落在 enhanced CLAUDE.md 中或待建。
+**其他子系统规则**：particles/tilemap/animation/navigation/material/audio/signal 等工具的规则散落在 enhanced CLAUDE.md 中或待建。
 
 **实际清单确认**：执行时用 Glob `enhanced/.claude/rules/*.md` 确认当前实际规则文件。
 

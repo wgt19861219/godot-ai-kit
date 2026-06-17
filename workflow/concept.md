@@ -4,7 +4,7 @@
 定义游戏核心概念、主要玩法和基础机制，输出轻量级游戏设计文档(GDD)。
 
 ## ② 知识输入
-```gdscript
+```text
 # 使用 gd-agentic 检索游戏蓝图示例
 load_skill(query="3D platformer collectible")
 ```

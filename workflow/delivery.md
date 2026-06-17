@@ -4,7 +4,7 @@
 完成最终版本打包、发布准备和质量保证，输出可发布的游戏版本。
 
 ## ② 知识输入
-```gdscript
+```text
 # 使用 CCGS checklist 检索发布清单
 load_skill(query="release review checklist")
 ```

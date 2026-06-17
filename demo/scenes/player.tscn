@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://d8m0playerdemo01"]
+[gd_scene load_steps=4 format=3]
 
 ; player.tscn — 3D 收集物平台游戏玩家骨架
 ; 手写骨架(非 enhanced 生成)。生产阶段可用 enhanced add_node + save_scene 重建。
 ; spec §6.3 架构阶段 | plan2 Task 6 Step 3
 ; 节点树设计见 demo/docs/02-architecture-adr.md
 
-[ext_resource type="Script" path="res://demo/scenes/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_player"]
 ; 注:player.gd 由 ③ production 阶段创建(MVP 不存在,load 时需注释本行或创建空脚本)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]

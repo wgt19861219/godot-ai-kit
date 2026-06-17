@@ -24,14 +24,14 @@
 | 组件 | 版本 | commit pin | 成熟度 | 验证状态 |
 |------|------|-----------|--------|---------|
 | **godot-ai-kit**(本套件) | v0.1.0 | — | MVP | 🟡 手动验证 |
-| enhanced | v0.18.1+(fix/review-verification 分支) | `6b30852` | 🟢 稳定(~950 测试) | 🟡 手动验证 |
+| enhanced | v0.18.1+(fix/review-verification 分支) | `1c03909` | 🟢 稳定(~950 测试) | 🟡 手动验证 |
 | GodotPrompter | v1.9.0(master) | `e09aa6d` | 🟡 较新 | 🟡 手动验证 |
 | gd-agentic-skills | main HEAD | `7fa21da` | 🔴 实验性(v0.0.6 预发布,API 可能变) | ⚠️ 未验证(实验性,仅引用不深度依赖) |
 | **Godot 引擎** | 4.5+ | — | — | 🟡 手动验证 |
 
 ### MVP pin 说明
 
-- **enhanced `6b30852`**:pin 在 `fix/review-verification` 分支的特定 commit(非分支 HEAD),避免分支漂移。describe 显示 `v0.18.1-13-g6b30852`,即 v0.18.1 之后第 13 个 commit。
+- **enhanced `1c03909`**:pin 在 `fix/review-verification` 分支的特定 commit(非分支 HEAD),避免分支漂移。describe 显示 `v0.18.1-15-g1c03909`,即 v0.18.1 之后第 15 个 commit。
 - **GodotPrompter `e09aa6d`**:pin 在 master 的 v1.9.0 之后第 1 个 commit(`v1.9.0-1-ge09aa6d`)。用户指令标注 v1.9.0。
 - **gd-agentic-skills `7fa21da`**:pin 在 main HEAD。该子模块无 tag(`git describe` 报错),按 main 分支 commit pin。**实验性**,套件仅做指针/索引引用,不修改其源文件(规避 LGPLv3 派生义务,见 NOTICE 与 spec §8.1)。
 - **Godot 4.5+**:enhanced v0.18.x 要求 Godot 4.4+,套件 MVP 锁 4.5+ 以用上 4.5 的新 API。
@@ -74,7 +74,7 @@ gd-agentic 当前 v0.0.6 预发布,API 可能变:
 
 | 套件版本 | 发布日期 | enhanced | GodotPrompter | gd-agentic | Godot | 验证状态 |
 |---------|---------|----------|---------------|-----------|-------|---------|
-| v0.1.0 | 2026-06-17 | `6b30852` | `e09aa6d` | `7fa21da` | 4.5+ | 🟡 手动 |
+| v0.1.0 | 2026-06-17 | `1c03909` | `e09aa6d` | `7fa21da` | 4.5+ | 🟡 手动 |
 
 ---
 

@@ -163,3 +163,22 @@
 - ⑤ 发布:#9(CI 进程清理)
 
 **遇到 🔴 不可靠项(#7),工作流必须写明"人工介入"步骤,不塞给 enhanced 自动化。**
+
+---
+
+## 补充认知(v0.1.0 审查新增)
+
+> 非"裂缝",而是认知完整性补充(源自 godot-ai-kit 全面审查 A6/I2)。
+
+### #10 sanitizePath 未接线(I-SEC-6,🟢 不构成漏洞)
+
+- **现象**:`enhanced/src/path-security.ts` 的 `sanitizePath` 存在但未在生产路径接线。
+- **为何不构成漏洞**:更强的 `resolveWithinRoot`(path-utils.ts)已在 10+ 工具广泛接线,承担实际防护(deny-by-default + UNC/设备名/迭代 URL 解码/realpath 多层纵深)。sanitizePath 是冗余未启用代码。
+- **降级可靠性**:🟢 可靠——无需降级,现有防护充分。
+
+### #11 index.ts 启动文案滞后(I2,已修 enhanced 1c03909)
+
+- **现象**(修复前):`index.ts` 启动警告 "all project paths are allowed by default",但 `path-utils.ts` 实际是 deny-by-default(restrict to cwd)。
+- **风险**:文案误导用户设 `GODOT_MCP_UNRESTRICTED=true` "修复"不存在的问题,反而降低安全。
+- **修复**:enhanced `fix/review-verification` commit `1c03909` 已改 info 级 + deny-by-default 实际文案。套件 pin 已 bump。
+- **降级可靠性**:🟢 可靠——纯文案修复,无行为变化。

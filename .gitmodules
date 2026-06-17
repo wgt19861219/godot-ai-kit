@@ -1,6 +1,6 @@
 [submodule "enhanced"]
 	path = enhanced
-	url = ../godot-mcp-enhanced
+	url = https://github.com/wgt19861219/godot-mcp-enhanced
 [submodule "GodotPrompter"]
 	path = GodotPrompter
 	url = https://github.com/jame581/GodotPrompter

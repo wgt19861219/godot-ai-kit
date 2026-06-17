@@ -35,3 +35,9 @@
 - 交叉验证(#4):run_and_verify 实跑 `hasErrors:false`,scene_tree 确认 script/shape/mesh 全生效;但 precheck 误报脚本 "returned null"(F6 路径 bug)。**以实跑为准 → collectible 通过**。
 - stop_project 清理(#9)。
 - **关键认知**:enhanced scene 工具链(create+add+edit+save)在设资源/attach script 上不可靠 —— 这是①②阶段"手写骨架"的真正原因,dogfood ③ 重现。后续 player.tscn(已有手写)/Main.tscn 同样走手写。
+
+## T4 player.gd 角色控制(2026-06-17)
+
+- player.gd:write_script overwrite(25 行,移动 WASD + 跳跃 Space + 面朝移动方向)。lint L021 警告 `gravity`/`input_dir` "可能与父类同名" —— **实为误报**(CharacterBody3D 无 `gravity` 成员;`velocity` 是父类成员,直接用未声明)。
+- 交叉验证(#4):run_and_verify player.tscn `hasErrors:false` → **通过**;precheck 仍误报 returned null(F6 路径 bug)。以实跑为准。
+- **#9 观察**:run_and_verify 的 timeout(45s)自动 kill 进程,后续 stop_project 报 "no project running" —— 残留进程风险在 timeout 模式下不触发(timeout kill 已清理);冗余 stop 可省,但 CI 场景仍建议显式钩子。

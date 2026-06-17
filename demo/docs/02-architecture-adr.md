@@ -120,3 +120,12 @@ Game.gd._on_crystal_collected(N):
 
 ---
 *spec §6.3 架构阶段 | plan2 Task 6 Step 3 | 上一步 → 01-concept-gdd.md*
+
+---
+
+## 决策变更(dogfood ③,2026-06-17)
+
+- **ADR-001 场景拆分**:dogfood 采用 **v1 策略**(独立 collectible.tscn),
+  非 MVP 单 Main 内嵌——因要实现完整收集逻辑,独立场景更干净。
+- **ADR-003 信号简化**:collected(N) → collected() 无参(MVP 计数不需 index)。
+  记为 F3 小偏离。Game.gd 更名为 main.gd。

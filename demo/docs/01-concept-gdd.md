@@ -39,6 +39,12 @@
 **MVP 范围(本 demo):** 移动 + 拾取信号(其余 v1)。MVP 不要求"可玩",只要求
 ①② 两阶段文档落地,作为 load_skill + enhanced 协作的活教材。
 
+## 范围变更(dogfood ③,2026-06-17)
+
+原 MVP=移动+拾取信号(不要求可玩)。dogfood 升级到**可玩闭环**:
+移动 + 跳跃 + 计分 + 集齐过关(原标 v1 的跳跃/计分/过关提到 dogfood 范围)。
+原因:dogfood 需可玩 demo 才有端到端验证价值。详见 spec §1.5。
+
 ## 关卡设计
 
 - 单一测试平台:`StaticBody3D` + `BoxShape3D` 碰撞

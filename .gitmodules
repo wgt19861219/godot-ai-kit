@@ -1,3 +1,9 @@
 [submodule "enhanced"]
 	path = enhanced
 	url = ../godot-mcp-enhanced
+[submodule "GodotPrompter"]
+	path = GodotPrompter
+	url = https://github.com/jame581/GodotPrompter
+[submodule "gd-agentic-skills"]
+	path = gd-agentic-skills
+	url = https://github.com/thedivergentai/gd-agentic-skills

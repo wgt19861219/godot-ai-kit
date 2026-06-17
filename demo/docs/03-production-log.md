@@ -58,3 +58,37 @@
 - #4 交叉:已由 T3/T4/T5 run_and_verify 实跑 `hasErrors:false` 覆盖(validate_scripts 静态走 F6 路径 bug,以实跑为准)。
 - 鼠标旋转相机:跳过(留 v1,spec §2.4 一致;MVP 固定 SpringArm 跟随即可玩)。
 - MVP 场景极简(22 节点),性能非瓶颈。
+
+## T7 交付(⑤,2026-06-17)
+
+- 发布知识 load_skill 命中一般:godot-code-review 0.43 / optimization 0.37 / mobile-adapt 0.32 —— **无专门"交付 checklist" skill**(code-review 可部分覆盖)。
+- verify_delivery 经 MCP 调用报错 `scope must be one of: scene, script, full` —— validation MCP schema **未暴露 scope 参数**(同 F4 的 validate_gdd)→ 工具不可用,降级**手动交付核对**(run_and_verify + scene_tree + 各脚本实跑已证交付物完整)。
+- #3 CRLF 治理:套件根建 `.gitattributes`(`* text=auto eol=lf`),renormalize 显示存量已 LF(无额外 diff),`.gitattributes` 阻止 checkout 转 CRLF。配 `.gitignore` 忽略 screenshot.png。
+
+## 裂缝汇总(验收③,2026-06-17)
+
+dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
+
+| F# | 类别 | 严重度 | 一句话 | 改进建议 |
+|----|------|--------|--------|----------|
+| F0 | 文档 | 🟢 | boundaries 阶段命名(原型/灰盒)≠ workflow(概念/架构) | 补映射注 |
+| F1 | 知识盲区 | 🟡 | 3D CharacterBody 移动无专门 NEVER(锁 characterbody-2d) | 补 3D skill |
+| F2 | 范围 | 🟢 | dogfood 范围超原 GDD MVP | 已更新①②文档 |
+| F3 | 范围 | 🟢 | collected(N)→collected() 简化 | 已记 ADR 变更 |
+| F4 | 工具 | 🔴 | validate_gdd 必需参数未在 MCP schema 暴露 | enhanced 暴露 document 参数 |
+| F5 | 知识盲区 | 🟡 | Area3D 收集无 3D 专门 skill(系统性) | 补 3D skill |
+| F6 | 工具 | 🟡 | edit_script/precheck res:// 路径拼接 bug(res://D:/...) | enhanced 修路径拼接 |
+| F7 | 工具 | 🔴 | edit_node 报 success 但 .tscn 未挂 script(假成功) | enhanced 修 + 读 .tscn 复核 |
+| F8 | 工具 | 🔴 | add_node properties 设资源被静默忽略 | enhanced 支持资源 / 手写 |
+| F9 | 工具 | 🟢 | screenshot analyze 返回 image URL 非文字描述 | enhanced 返回文字描述 |
+| F10 | 工具 | 🟡 | profiler snapshot 不指定场景跑空(node_count=0) | enhanced 支持指定场景 |
+| F11 | 工具 | 🔴 | verify_delivery scope 参数未在 MCP 暴露 | enhanced 暴露 scope |
+
+**三大关键模式**:
+1. **enhanced validation 工具门禁失效**(F4/F11):validate_gdd / verify_delivery 必需参数未在 MCP schema 暴露 → ①概念、⑤交付的 enhanced 门禁经 MCP 不可用,降级手动。这是套件工作流与 enhanced MCP 集成的核心裂缝。
+2. **enhanced scene 工具设资源不可靠**(F7/F8):edit_node 假成功 + add_node 不设资源 → ①②③ 全程手写 .tscn(印证 02-adr"手写骨架"的真正原因)。
+3. **套件 3D 专门 skill 系统性缺失**(F1/F5):CharacterBody 移动 / Area3D 收集均无 3D 专门 skill,核心规则锁 2D 需迁移;性能/优化通用知识命中好(无盲区)。
+
+**正向**:load_skill 数据层稳定(query 可复现)、run_and_verify 实跑可靠(全程 hasErrors:false)、3D headless 截图可用(#7 精确化:只 2D 受限)、write_script 正常(不经 precheck 路径 bug)。
+
+抄送 Obsidian `[[GodotAIKit/wiki/load_skill]]`(主会话写)。

@@ -41,3 +41,11 @@
 - player.gd:write_script overwrite(25 行,移动 WASD + 跳跃 Space + 面朝移动方向)。lint L021 警告 `gravity`/`input_dir` "可能与父类同名" —— **实为误报**(CharacterBody3D 无 `gravity` 成员;`velocity` 是父类成员,直接用未声明)。
 - 交叉验证(#4):run_and_verify player.tscn `hasErrors:false` → **通过**;precheck 仍误报 returned null(F6 路径 bug)。以实跑为准。
 - **#9 观察**:run_and_verify 的 timeout(45s)自动 kill 进程,后续 stop_project 报 "no project running" —— 残留进程风险在 timeout 模式下不触发(timeout kill 已清理);冗余 stop 可省,但 CI 场景仍建议显式钩子。
+
+## T5 Main + 计分 + 终态(验收②,2026-06-17)
+
+- main.gd(21 行)+ Main.tscn(手写,22 节点)。run_and_verify `hasErrors:false`,scene_tree 完整:Main(script,total=3)/ Player(CharacterBody3D+CapsuleMesh+SpringArm→Camera)/ Platform(StaticBody3D+Box)/ Crystal_0-2(Area3D+BoxShape3D+BoxMesh)/ HUD+ScoreLabel(unique_name_in_owner=true,text="收集: 0/3")。**验收②结构达成**。
+- 信号链就绪:player → collectible.Area3D `body_entered` → `collected` → main `_on_collected` → score → Label。
+- **#7 精确化(重要)**:3D headless 截图**可用**(screenshot.png 7209B / 1280×720 渲染正常)—— boundaries #7"2D 截图 headless 不可用"**严格限定 2D,3D 不受影响**。建议 boundaries #7 补注"3D 例外"。
+- F9:screenshot `analyze` 返回 image URL 而非文字描述,模型无法判读画面内容(工具层缺陷)。
+- 交互行为(移动/收集计分)需输入,headless 无法模拟 → 待人工 / Game Bridge 确认。

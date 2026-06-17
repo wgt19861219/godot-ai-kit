@@ -118,5 +118,5 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 **判定:Ready(可交付)**。7 条修复(C3/C1/C2/I1-I4)全部 ✅ 实质生效,实跑 `hasErrors:false`,默认 main_scene 正确,游戏可玩。修复 diff 精准、命名清晰,符合教材质量。
 
 **新发现 2 Minor(非阻塞,v0.1.1 polish)**:
-- **Minor-1**:`_collected` Dict 内存小泄漏 —— crystal `queue_free()` 后 key 悬挂(Object 引用不自动 erase)。demo 3 个 crystal 可忽略,但教材应清。建议 `sender.tree_exited.connect(func(): _collected.erase(sender))`。
-- **Minor-2**:`_connect_crystals` 仅覆盖**初始静态** crystal(call_deferred 解初始时序);运行时动态 `instance` 的 crystal 不会自动连 → 需手动调 `_connect_crystals()` 或 crystal 主动连 main group。建议注释说明 C1 限定的覆盖范围。
+- **Minor-1 ✅ 已修(本次)**:`_on_collected` 加 `sender.tree_exited.connect(func() -> void: _collected.erase(sender))`,清 crystal free 后悬挂 key。
+- **Minor-2 ✅ 已修(本次)**:`_connect_crystals` 加注释说明 C1 限定覆盖范围(初始静态 crystal;运行时动态 instance 的需手动重连)。

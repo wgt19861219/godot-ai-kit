@@ -104,7 +104,7 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 - **F10 订正**:node_count=0 真根因是 main_scene 配错(非 profiler 缺陷)—— 原记录粉饰了配置 bug,不诚实,已订正。
 - 补 **F12**(UI 中文字体/视觉验收盲区)/ **F13**(main_scene 配错=F10 真根因)。
 
-**v0.1.1 待办(reviewer 标不阻塞当前验收)**:
+**已修(本次 refactor commit,用户选"教材质量";reviewer 原标 v0.1.1 不阻塞)**:
 - **C1**:`main.gd` 信号订阅依赖隐含的子节点 `_ready` 先于父时序(当前可玩但脆弱)→ 改收集物主动连主控,或加注释固化前提。
 - **C2**:`_on_collected` 无去重(F3 无参简化副作用)→ `collected` 加 sender 参数 + main 用 Set/Dict 去重。
 - **I1**:`player.gd` 朝向计算冗余(direction 已归一,`face!=position` 永真)+ look_at 瞬转无平滑。

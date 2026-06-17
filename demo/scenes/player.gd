@@ -2,8 +2,12 @@ extends CharacterBody3D
 
 const SPEED := 5.0
 const JUMP_VELOCITY := 4.5
+const DECEL := 10.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+func _ready() -> void:
+	add_to_group("player")
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -15,10 +19,9 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
-		var face := global_position + Vector3(velocity.x, 0.0, velocity.z)
-		if face != global_position:
-			look_at(face, Vector3.UP)
+		look_at(global_position + direction, Vector3.UP)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, SPEED)
-		velocity.z = move_toward(velocity.z, 0.0, SPEED)
+		var decel := SPEED * DECEL * delta
+		velocity.x = move_toward(velocity.x, 0.0, decel)
+		velocity.z = move_toward(velocity.z, 0.0, decel)
 	move_and_slide()

@@ -1,0 +1,3 @@
+[submodule "enhanced"]
+	path = enhanced
+	url = ../godot-mcp-enhanced

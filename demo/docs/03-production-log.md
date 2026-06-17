@@ -112,3 +112,11 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 - **I3**:`collectible` body 类型注解过窄 + 硬判断 `is CharacterBody3D` → 组优先(`is_in_group("player")`)。
 - **I4**:ScoreLabel 中文 UI 字体(=F12)+ screenshot 无法判读 → 视觉验收盲区。
 - M1-M4:风格/性能/文档完整性小项(ADR-003 主图未更新等)。
+
+## reviewer 复审(2026-06-18,fresh context)
+
+**判定:Ready(可交付)**。7 条修复(C3/C1/C2/I1-I4)全部 ✅ 实质生效,实跑 `hasErrors:false`,默认 main_scene 正确,游戏可玩。修复 diff 精准、命名清晰,符合教材质量。
+
+**新发现 2 Minor(非阻塞,v0.1.1 polish)**:
+- **Minor-1**:`_collected` Dict 内存小泄漏 —— crystal `queue_free()` 后 key 悬挂(Object 引用不自动 erase)。demo 3 个 crystal 可忽略,但教材应清。建议 `sender.tree_exited.connect(func(): _collected.erase(sender))`。
+- **Minor-2**:`_connect_crystals` 仅覆盖**初始静态** crystal(call_deferred 解初始时序);运行时动态 `instance` 的 crystal 不会自动连 → 需手动调 `_connect_crystals()` 或 crystal 主动连 main group。建议注释说明 C1 限定的覆盖范围。

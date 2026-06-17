@@ -6,3 +6,7 @@ node_modules/
 
 # install.ps1 生成的机器特定配置(含本机绝对路径,勿提交)
 .claude/settings.json
+
+# Godot demo 临时截图(dogfood headless 生成,勿提交)
+demo/screenshot.png
+demo/screenshot.png.import

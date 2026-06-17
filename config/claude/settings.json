@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "godot-mcp-enhanced": {
+      "command": "node",
+      "args": ["D:\\GitHub\\godot-ai-kit\\enhanced\\build\\index.js"],
+      "env": {
+        "GODOT_SKILL_LIBRARIES": "D:\\GitHub\\godot-ai-kit\\GodotPrompter\\skills,D:\\GitHub\\godot-ai-kit\\gd-agentic-skills\\skills"
+      }
+    }
+  }
+}

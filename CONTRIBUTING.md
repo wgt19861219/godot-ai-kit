@@ -31,12 +31,9 @@ godot-ai-kit 是 LGPLv3 **真聚合**套件:粘合层(`CLAUDE.md`/`rules`/`workf
 - token 预算:`CLAUDE.md` ≤ 4KB,`rules/` ≤ 8KB(超限下沉 `load_skill`,见 `rules/budget-guard.md`)
 - 改 `install.ps1` / `install.sh` 后双端必须等价(README 宣称"等价"需真实)
 
-## 工作流阶段(过渡期说明)
+## 工作流阶段
 
-- **当前发布版**:`workflow/` 是 5 阶段(`concept`/`architecture`/`production`/`polish`/`delivery`)
-- **发布后将升级**为 6 阶段循环(5 目录 + README,见 `docs/superpowers/specs/2026-06-18-workflow-loop-restructure-design.md`)
-
-过渡期涉及 `workflow/` 的贡献按当前 5 阶段(发布版不依赖重组后结构)。
+套件用 **6 阶段循环工作流**(`1-design`/`2-develop`/`3-verify`/`4-complete`/`5-archive` + README 流转图,见 `workflow/README.md` + `docs/superpowers/specs/2026-06-18-workflow-loop-restructure-design.md`)。涉及 `workflow/` 的贡献按 6 阶段结构。
 
 ## 提交规范
 

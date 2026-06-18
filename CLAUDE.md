@@ -4,7 +4,7 @@
 - **enhanced(子模块)**:动手 + 验证(读场景/写脚本/运行/验证)
 - **GodotPrompter(子模块)**:教 AI 写 Godot(写法规范,C# 双语)
 - **gd-agentic-skills(子模块)**:专家经验(NEVER 规则 + 27 游戏蓝图)
-- **本仓库粘合层**:统一规则 + 5 阶段工作流 + install + demo
+- **本仓库粘合层**:统一规则 + 6 阶段循环工作流 + install + demo
 
 > LGPLv3 真聚合:粘合层只用指针/索引引用子模块,**绝不修改 gd-agentic-skills 源文件**(避免派生义务,见 `NOTICE`、`docs/compatibility-matrix.md`)。三个子模块均用 GitHub HTTPS URL(见 `.gitmodules`),`git submodule update` 无需 file 协议放行。
 
@@ -30,13 +30,13 @@
 | **状态** | query_scene_tree/save_scene | headless |
 | dev_loop | 执行→验证→截图→断言一体化 | headless |
 
-## 5 阶段工作流
-你在哪个阶段?
-→ `workflow/concept.md`(概念→蓝图→轻量 GDD)  
-→ `workflow/architecture.md`(架构→场景拆分→ADR)  
-→ `workflow/production.md`(生产→NEVER规则→可运行构建)  
-→ `workflow/polish.md`(打磨→性能优化→性能达标)  
-→ `workflow/delivery.md`(交付→审查清单→发版包)
+## 6 阶段循环工作流
+设计→开发→验证→完成→归档→回设计(流转图见 `workflow/README.md`)
+→ `workflow/1-design/`(概念→蓝图→GDD→ADR)
+→ `workflow/2-develop/`(生产→NEVER规则→可运行构建)
+→ `workflow/3-verify/`(验证:测试/性能验收 + 优化提升 + fix)
+→ `workflow/4-complete/`(交付→审查清单→发版包)
+→ `workflow/5-archive/`(归档→轮次快照→下一轮)
 
 ## 加载约定
 重内容用 `load_skill(query="..." libraries=...)` 按需加载,不预载。enhanced 工具详细规则见 `enhanced/.claude/rules/godot-mcp-*.md`(实际5个:core/bridge/editor/ui/recording)。

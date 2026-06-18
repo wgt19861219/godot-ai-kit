@@ -1,48 +1,33 @@
-# Godot AI Kit 工作流
+# 开发循环 — 6 阶段
 
-## 概述
-这是 godot-ai-kit 的 Godot 专版 5 阶段工作流，结合 enhanced 工具、GodotPrompter 和 gd-agentic-skills，实现从概念到交付的完整游戏开发流程。
+套件用循环式工作流指导 Godot 游戏开发:每一轮按 6 阶段流转,归档后回到设计开启下一轮。
 
-## 5 阶段工作流
+## 流转图
 
-### 1. 概念阶段 (concept.md)
-- **目标**: 定义游戏核心概念和玩法
-- **知识输入**: gd-agentic 蓝图检索
-- **执行**: `load_skill(query="3D platformer collectible")` + `validate_gdd`
+```
+1-design  →  2-develop  →  3-verify  →  4-complete  →  5-archive
+   ↑                                                         │
+   └───────────────────  下一轮迭代  ←────────────────────────┘
+```
 
-### 2. 架构阶段 (architecture.md)  
-- **目标**: 设计技术架构和场景结构
-- **知识输入**: gd-agentic 决策矩阵
-- **执行**: `load_skill(query="scene split autoload signal architecture")` + `read_scene`/`add_node`/`save_scene`
+## 阶段
 
-### 3. 生产阶段 (production.md)
-- **目标**: 实现核心游戏功能
-- **知识输入**: gd-agentic NEVER + GodotPrompter
-- **执行**: `load_skill(query="CharacterBody3D movement NEVER")` + `write_script`/`batch_add_nodes`/`run_and_verify`
+| 阶段 | 目录 | 目标 | 来源 |
+|------|------|------|------|
+| 1 设计 | `1-design/` | 概念→蓝图→GDD→ADR | `concept.md` + `architecture.md` |
+| 2 开发 | `2-develop/` | NEVER 规则→可运行构建 | `production.md` |
+| 3 验证 | `3-verify/` | ① 验证(测试/验收/性能验收) ② 优化提升(polish) + fix 子章节(debug) | `polish.md`(全量) |
+| 4 完成 | `4-complete/` | 审查清单→发版 | `delivery.md` |
+| 5 归档 | `5-archive/` | 轮次 GDD/log 快照 + demo 版本归档 | 新增 |
 
-### 4. 精修阶段 (polish.md)
-- **目标**: 优化性能和用户体验
-- **知识输入**: GodotPrompter 性能指南
-- **执行**: `load_skill(query="performance draw call")` + `profiler`/`validate_scripts`
+## 迭代
 
-### 5. 交付阶段 (delivery.md)
-- **目标**: 完成版本发布准备
-- **知识输入**: CCGS checklist
-- **执行**: `load_skill(query="release review checklist")` + `verify_delivery`
+完成一轮(归档后),回到 `1-design/` 开启下一轮。归档产物是下一轮的基线参考。
 
-## 硬闭环诚实化机制
+## 硬闭环诚实化
 
-每阶段**约定调用 enhanced 验证工具 + 阶段门禁**(靠 AI 遵守约定 + 文档要求贴验证结果)。enhanced 工具能验证、不能阻止跳阶段。与 CCGS 区别:CCGS 靠 AI 自觉读 markdown,本工作流每阶段强制调用验证工具。
+每阶段**约定调用 enhanced 验证工具 + 阶段门禁**(AI 遵守约定 + 文档要求贴验证结果)。enhanced 工具能验证、不能阻止跳阶段。详见各阶段文档。
 
-### 关键特点
-1. **强制性验证**: 每个阶段必须调用相应的 enhanced 验证工具
-2. **文档集成**: 验证结果直接集成到阶段文档中
-3. **AI 自律**: 依靠 AI 自觉遵守流程约定，无法强制跳过验证步骤
-4. **工具支持**: enhanced 工具提供客观的验证标准，确保质量门槛
+## 历史
 
-### 与传统流程对比
-- **CCGS**: 依赖 AI 读取 markdown 文档，流程执行较松散
-- **本工作流**: 强制调用验证工具，每阶段都有明确的工具验证点
-
----
-*文档遵循 spec §6.3 设计要求*
+本循环由线性 5 阶段(`concept`/`architecture`/`production`/`polish`/`delivery`)升级而来(2026-06-18,见 `docs/superpowers/specs/2026-06-18-workflow-loop-restructure-design.md`)。

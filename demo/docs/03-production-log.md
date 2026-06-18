@@ -120,3 +120,79 @@ dogfood ③④⑤ 双轨对照共记录 12 条裂缝(F0-F11):
 **新发现 2 Minor(非阻塞,v0.1.1 polish)**:
 - **Minor-1 ✅ 已修(本次)**:`_on_collected` 加 `sender.tree_exited.connect(func() -> void: _collected.erase(sender))`,清 crystal free 后悬挂 key。
 - **Minor-2 ✅ 已修(本次)**:`_connect_crystals` 加注释说明 C1 限定覆盖范围(初始静态 crystal;运行时动态 instance 的需手动重连)。
+
+## 全面审查报告复审订正(2026-06-18,两份外部全面审查)
+
+两份外部全面审查(架构审查 + BlockB 设计审查)对 merged 套件提出若干发现。逐条核实(不照单全收)后处置:
+
+### WASD 输入映射修复(报告1 C1,真功能 Bug ✅ 已修)
+
+- **核实成立**:`player.gd` 用 `Input.get_vector("ui_left/right/up/down")`,但 `project.godot` 无 `[input]` 段;Godot 4 默认 InputMap **不绑 WASD**(只绑方向键 + 手柄 D-Pad)→ WASD 完全无响应。本日志 T4(上 line 41)声称"移动 WASD"名不副实,印证了"可玩性验收从未真正执行"的系统性盲区(boundaries #7 输入盲区)。
+- **修复(方案 B,UI 与游戏 action 分离,更干净的活教材)**:`project.godot` 新增 `[input]` 段,用 `physical_keycode` 定义 `move_forward(W=87)`/`move_back(S=83)`/`move_left(A=65)`/`move_right(D=68)`;`player.gd:17` 改 `get_vector("move_left","move_right","move_forward","move_back")`。Space 跳跃仍走默认 `ui_accept`(不重定义,避免污染 UI 导航)。
+- **验证**:`execute_gdscript` 读 InputMap 确认 4 个 action 绑定正确物理键码 + Space 可用 → **PASS**;`run_and_verify Main.tscn` `hasErrors:false`(#4 以实跑为准)。
+- **残留盲区**:WASD **按键实际响应**需人工/编辑器确认(headless 无法模拟输入),如实标注,不假装已验证。
+
+### 终局文案订正(报告1 I4,归因纠正)
+
+- **报告1 归因错误**:报告1 称"代码英文 Clear!/Score、初始英文 Score:0/3、运行时中文 收集:%d/%d"三套语言混用。**核实实际**:`main.gd:31="Clear!"`、`:34="Score: %d/%d"`、`Main.tscn:45="Score: 0/3"`——**代码全英文一致**;"运行时中文"是基于本日志 T5 旧快照(line 47 `text="收集: 0/3"`)的误判。
+- **真相**:T5 记录时 UI 是中文,reviewer 复审 I4 修复**已改英文**(规避 F12 中文字体 tofu);本日志 line 47/86/113 的中文描述是**历史快照**,未随修复更新,造成报告误读。
+- **处置**:代码已统一英文,**不改**;`spec/plan` 中的"过关!"为**早期设计意图**(superpowers 过程产物),保留为历史记录不回改。
+- **F12 状态订正**:由"UI 中文字体未配置→'过关'视觉验收未完成"订正为"终局落地英文 Score/Clear!,F12 已通过改英文消解;视觉验收仍受 F9(screenshot analyze 返回 URL 非文字)限制,需人工肉眼"。
+
+### 文档同步项(报告1 I1/I2/I3 + 报告2 I2/I3/I4/I5,均已修)
+
+- 兼容矩阵 enhanced pin `1c03909`→`0b54d1b` + C1 可达性脚注(报告1 I1)
+- NOTICE enhanced upstream `本地 ../godot-mcp-enhanced`→GitHub URL(报告1 I2)
+- `install.sh` Step5 从 `grep -q` 对齐为解析 settings.json + 逐路径校验(报告1 I3;且语义比 `install.ps1` 更正确:校验 `${REPO_ROOT}` 占位符替换后的真实路径,而非 ps1 的字面占位符路径)
+- README 删"跨平台 install.sh 计划 v0.2 提供"→已提供(报告2 I2)
+- 项目 `CLAUDE.md` 删"enhanced 是本地相对路径子模块,需 `-c protocol.file.allow=always`"(报告2 I3,C1修复后已 HTTPS,过时)
+- `demo/README` 更新 ③④⑤ 已完成可运行 + 修正文件名引用(`03-production.md`→`03-production-log.md`)(报告2 I4)
+- `workflow/production.md` 补逐条裂缝引用 #1-#6/#9 + 修正降级语义(报告2 I5,泛泛→具体,按 boundaries 引用约定)
+
+### 报告自身出错的发现(已纠正,不修)
+
+- **报告2 I6**("14 子系统仅 5 个 rule"):是 enhanced 子模块内部规则覆盖问题,套件层无权也无需修(项目 CLAUDE.md 已诚实标注"实际5个:core/bridge/editor/ui/recording")。忽略。
+- **报告1 I4**:见上"终局文案订正",归因错误(代码非三套混用,是文档历史快照中文 vs 代码英文)。
+
+### 报告2 C1 暂不处理(用户决策 ⏸)
+
+- enhanced pin `0b54d1b` 未推送 origin(`origin/fix/review-verification` HEAD=`f0384c7`,本地领先 6 commit=沙箱加固补丁A+B),外部 `git submodule update --init` 会失败。
+- 用户 2026-06-18 决策:**暂不处理**(不 push、不回退)。兼容矩阵已如实标注该 pin 可达性提示——**公开发布/打 tag 前必须解决**(push `0b54d1b` 或回退到 origin 可达的 `1c03909`)。
+
+### 报告1 Minor 系列(M1-M4)处置状态
+
+报告1 另列 4 个 Minor,本次评估后**均不处理**(附理由):
+- **M1**(动态 crystal 连接 helper):当前 demo 不触发动态生成,代码已诚实自注释(`_connect_crystals` 注释说明运行时 instance 需手动重连),YAGNI。
+- **M2**(enhanced/`D:` 误建目录):enhanced 子模块内部问题,套件层无权改,建议向 enhanced 报 issue。
+- **M3**(`rules/budget-guard.md` 全角括号浪费 byte):当前 3157/8192 远未超限,纯风格,跳过。
+- **M4**(缺自动化 CI 冒烟):与"CI v1 上线才标绿"规划重叠的大件,非本次范围;建议作为 v0.2 单独任务。
+
+> 注:报告1 的 I4 见上"终局文案订正"(归因纠正,非真问题);I1/I2/I3 已在"文档同步项"修复。
+
+## 人工实测验证(2026-06-18,WASD 真实按键响应)
+
+WASD 按键实测因 Game Bridge 在 Godot 4.6.2 崩溃(`mcp_bridge.gd:66` `_ready()` 兼容 bug,卡 debugger break,无法自动化)改由用户人工窗口实测。实测**发现并修复 3 个 headless 完全无法暴露的真实 Bug**:
+
+### F14:场景缺光源(灰暗不可辨)🔴→✅ 已修
+- **现象**:用户实测画面灰暗,无法分辨角色/平台/水晶。
+- **根因**:`Main.tscn` 无 DirectionalLight3D/WorldEnvironment,forward_plus 默认环境光极弱。T5 headless 截图当时判"渲染正常"是误判(色调暗但未细看)。
+- **修复**:`Main.tscn` 加 `WorldEnvironment`(天蓝背景 + 环境光填充)+ `DirectionalLight3D`(主光带阴影)。
+
+### F15:移动反馈循环(W 正常、A/S/D 闪烁)🔴→✅ 已修
+- **现象**:用户实测 W 正常,A/S/D 移动闪烁。
+- **根因**:`player.gd` 用 `transform.basis * input_dir` 把输入按**角色自身朝向**变换,而 `look_at` 又改朝向 → 反馈循环(W 自洽不抖,A/S/D 振荡闪烁)。
+- **修复**:移动改世界坐标 `Vector3(input_dir.x, 0, input_dir.y)`,去 `transform.basis`。
+
+### F16:look_at 瞬转 + 相机挂在角色下(转向突兀/视角乱)🟡→✅ 已修(最小跟随)
+- **现象**:转向突兀(`look_at` 瞬转);旋转 Player 带 SpringArm/Camera 一起转 → 视角乱、第二次切方向无效。
+- **修复**:
+  1. `look_at` 瞬转 → `lerp_angle` 平滑(reviewer I1 当初提过未落地,本次补)。
+  2. 旋转只作用于 `mesh`(角色胶囊体)而非 Player 根,相机臂稳定。
+  3. `SpringArm` 同步平滑转向移动方向 → 第三人称跟随视角。
+- **残留打磨(v1 范围)**:完整相机系统(鼠标自由旋转、碰撞回弹、距离自适应)。用户 2026-06-18 决策:当前最小跟随视角先接受,完整打磨留 v1。
+
+### WASD 验收结论
+
+- InputMap 绑定(headless)✅ + `run_and_verify` hasErrors:false ✅ + **人工按键实测四向移动正常、跳跃/计分/集齐正常** → 验收②真正达成(此前仅结构达成)。
+- **关键教训**:boundaries #7"headless 无法模拟输入"导致 WASD 这类输入 Bug 一路漏检到人工实测——F14(光照)/F15(反馈循环)/F16(相机)同理,headless 截图/实跑均无法暴露,**只有真实视觉 + 按键才发现**。印证"可玩性验收必须人工,不能靠声明"。
+- 自动化盲区扩展记录:Game Bridge 在 Godot 4.6.2 的 `_ready()` 兼容崩溃 → bridge 自动化验证路径当前不可用(待 enhanced 修复 bridge 脚本)。

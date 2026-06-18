@@ -17,12 +17,12 @@
 |---|------|------|-----|-----|
 | ① | 概念(Concept) | [`docs/01-concept-gdd.md`](docs/01-concept-gdd.md) | **✅ 本 Task** | — |
 | ② | 架构(Architecture) | [`docs/02-architecture-adr.md`](docs/02-architecture-adr.md)<br>[`scenes/player.tscn`](scenes/player.tscn) | **✅ 本 Task** | — |
-| ③ | 生产(Production) | `docs/03-production.md` + `scenes/player.gd` | ❌ v1 | 可运行构建 |
-| ④ | 打磨(Polish) | `docs/04-polish.md` + profiler 报告 | ❌ v1 | 性能达标 |
-| ⑤ | 交付(Delivery) | `docs/05-delivery.md` + 发版包 | ❌ v1 | verify_delivery 通过 |
+| ③ | 生产(Production) | [`docs/03-production-log.md`](docs/03-production-log.md)<br>`scenes/{player,main,collectible}.gd` + `Main.tscn` | ✅ 可运行 | — |
+| ④ | 打磨(Polish) | 性能/profiler 实质工作并入 [`03-production-log.md`](docs/03-production-log.md) T6 | ✅(并入③) | — |
+| ⑤ | 交付(Delivery) | 交付核对 + CRLF 治理并入 [`03-production-log.md`](docs/03-production-log.md) T7 | ✅(并入③) | — |
 
-**MVP 范围(本 Task):** 只产出 ①②。③④⑤ 留给 v1(production 阶段才需要
-enhanced `write_script`/`run_and_verify`,超出 Task 6 范围)。
+**dogfood 范围:** ①②③④⑤ 全程双轨对照完成,产出 3 篇文档(①②③)+ 可运行 demo。
+④⑤ 的性能与交付核对实质工作并入 [`03-production-log.md`](docs/03-production-log.md) T6/T7,未单独成文。
 
 ## 演示的协作模式
 
@@ -32,14 +32,17 @@ enhanced `write_script`/`run_and_verify`,超出 Task 6 范围)。
 - **enhanced 协作:** `scenes/player.tscn` 是手写骨架(.tscn 文本),
   生产阶段可用 enhanced `add_node` + `save_scene` 重建更复杂的场景。
 
-## 运行(③ 完成后)
+## 运行
 
 ```bash
-# v1 完成生产阶段后:
 godot --path demo scenes/Main.tscn
+# 或直接 godot --path demo(project.godot 已设 main_scene=Main.tscn)
 ```
 
-MVP 阶段 demo 不可运行(只有 ①② 文档 + player.tscn 骨架)。
+操作:**W/A/S/D** 移动、**Space** 跳跃,碰水晶计分,集齐 3 颗显示 "Clear!"。
+(输入映射见 `project.godot` 的 `[input]` 段——demo 用自定义 `move_*` action 绑 WASD,
+不复用 `ui_*`,避免与 UI 导航耦合。**未绑方向键**:GDD(`01-concept-gdd.md`)只要求 WASD,
+故按方案 B 仅做 WASD 作为"游戏 action 与 UI action 分离"的活教材;如需方向键共存,可在 `[input]` 段把 `ui_up/down/left/right` 追加方向键事件。)
 
 ---
 *spec §6.4/§9 | plan2 Task 6 | 关联 `docs/enhanced-boundaries.md`*

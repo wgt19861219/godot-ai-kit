@@ -6,7 +6,7 @@
 - **gd-agentic-skills(子模块)**:专家经验(NEVER 规则 + 27 游戏蓝图)
 - **本仓库粘合层**:统一规则 + 5 阶段工作流 + install + demo
 
-> LGPLv3 真聚合:粘合层只用指针/索引引用子模块,**绝不修改 gd-agentic-skills 源文件**(避免派生义务,见 `NOTICE`、`docs/compatibility-matrix.md`)。enhanced 是本地相对路径子模块,`git submodule update` 需加 `-c protocol.file.allow=always`。
+> LGPLv3 真聚合:粘合层只用指针/索引引用子模块,**绝不修改 gd-agentic-skills 源文件**(避免派生义务,见 `NOTICE`、`docs/compatibility-matrix.md`)。三个子模块均用 GitHub HTTPS URL(见 `.gitmodules`),`git submodule update` 无需 file 协议放行。
 
 ## 常用命令
 - 一键安装:`.\install.ps1`(PowerShell;前置检查 git/Node 20+/Godot 4.5+ → 拉子模块 → 构建 enhanced → 部署 `.claude/settings.json` → 自检)

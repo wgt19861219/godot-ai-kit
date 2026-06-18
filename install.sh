@@ -38,9 +38,31 @@ else
   ok "已生成 -> .claude/settings.json"
 fi
 
-step 5 "确认 GODOT_SKILL_LIBRARIES(配置内已含)"
-grep -q 'GODOT_SKILL_LIBRARIES' "$src_config" || fail "config 缺少 GODOT_SKILL_LIBRARIES env"
-ok "GODOT_SKILL_LIBRARIES 已配置"
+step 5 "确认 GODOT_SKILL_LIBRARIES(解析 + 逐路径校验存在)"
+# 与 install.ps1 Step5 语义对等:解析 settings.json,把 ${REPO_ROOT} 占位符替换为本机
+# repo_root 后逐个校验路径存在(macOS bash 3.2 兼容,不用 mapfile)。
+libs=$(node -e '
+  const fs=require("fs");
+  const cfg=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));
+  const val=cfg.mcpServers["godot-mcp-enhanced"].env.GODOT_SKILL_LIBRARIES;
+  if(typeof val!=="string"||!val){process.exit(1);}
+  for(const lib of val.split(",")){
+    console.log(lib.replace(/\$\{REPO_ROOT\}/g,process.argv[2]));
+  }
+' "$src_config" "$repo_root" 2>/dev/null) || fail "config 缺少 GODOT_SKILL_LIBRARIES env 或其值非字符串(MCP env 必须是逗号分隔的字符串)"
+[ -n "$libs" ] || fail "GODOT_SKILL_LIBRARIES 解析为空"
+miss=0
+while IFS= read -r lib; do
+  lib="${lib// /}"
+  [ -z "$lib" ] && continue
+  if [ -d "$lib" ]; then
+    ok "技能库存在: $(basename "$lib")"
+  else
+    echo "  警告: 技能库路径不存在(可能子模块未就绪): $lib" >&2
+    miss=1
+  fi
+done <<< "$libs"
+[ "$miss" -eq 0 ] || echo "  提示: 缺失路径会在 Step 2 子模块更新后存在;若已执行 Step 2 仍缺失,检查 config/claude/settings.json" >&2
 
 step 6 "IDE 集成(Claude Code)"
 ok "Claude Code 配置就绪(通过 Step 4)"

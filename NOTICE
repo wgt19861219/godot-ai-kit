@@ -3,9 +3,11 @@ Copyright 2026 wgt (MIT License)
 
 本仓库是聚合(mere aggregation),各子模块保持独立、原样、可替换,各自许可证不变:
 
-- enhanced/           godot-mcp-enhanced (MIT)         upstream: 本地 ../godot-mcp-enhanced
+- enhanced/           godot-mcp-enhanced (MIT)         upstream: https://github.com/wgt19861219/godot-mcp-enhanced
 - GodotPrompter/      GodotPrompter by jame581 (MIT)   upstream: https://github.com/jame581/GodotPrompter
 - gd-agentic-skills/  gd-agentic-skills by thedivergentai (LGPLv3)  upstream: https://github.com/thedivergentai/gd-agentic-skills
 
 粘合层(CLAUDE.md/rules/workflow/install/demo/docs)只用指针/索引引用子模块内容,
 不复制或改写任何知识源文件——LGPLv3 真聚合豁免的前提。
+
+> 注:enhanced upstream URL 的可达性依赖其 fork 仓库公开 + pin 已推送 origin(见 `docs/compatibility-matrix.md` C1 脚注)。

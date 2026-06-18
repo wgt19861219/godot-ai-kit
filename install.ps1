@@ -155,14 +155,18 @@ $envVal = $cfg.mcpServers.'godot-mcp-enhanced'.env.GODOT_SKILL_LIBRARIES
 if (-not $envVal) {
     Write-Fail "config/claude/settings.json 缺少 GODOT_SKILL_LIBRARIES env。"
 }
-$libs = $envVal -split ','
+# 与 install.sh Step5 语义对等:源模板 $srcConfig 含 ${REPO_ROOT} 占位符,
+# 必须替换为本机实际路径后再 Test-Path,否则字面校验占位符路径永远告警(狼来了)。
+$repoRootFwd = $repoRoot -replace '\\', '/'
+$envResolved = $envVal -replace '\$\{REPO_ROOT\}', $repoRootFwd
+$libs = $envResolved -split ','
 foreach ($lib in $libs) {
     $libTrim = $lib.Trim()
     if ($libTrim -and -not (Test-Path $libTrim)) {
         Write-Host "  警告: 技能库路径不存在(可能子模块未就绪): $libTrim" -ForegroundColor Yellow
     }
 }
-Write-Ok "GODOT_SKILL_LIBRARIES -> $($libs.Count) 个库"
+Write-Ok "GODOT_SKILL_LIBRARIES -> $($libs.Count) 个库(占位符已替换为本机路径校验)"
 
 # ── Step 6: Claude Code 单端(MVP,跳过 Cursor/Cline) ───────
 Write-Step 6 "IDE 集成(Claude Code 单端,MVP)"

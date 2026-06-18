@@ -9,7 +9,7 @@ AI Godot 开发环境套装——把 godot-mcp-enhanced(执行层)+ GodotPrompte
 ```powershell
 .\install.ps1
 ```
-> **平台**:MVP 仅提供 Windows PowerShell 安装脚本。macOS/Linux 参照 `install.ps1` 七步手工执行(submodule update → `cd enhanced && npm install && npm run build` → 部署 `config/claude/settings.json`)。跨平台 `install.sh` 计划 v0.2 提供。
+> **平台**:Windows 用 `.\install.ps1`;macOS/Linux 用 `bash ./install.sh`(已提供,与 ps1 等价的七步流程:前置检查 → submodule update → 构建 enhanced → 部署 `.claude/settings.json` → 校验技能库 → 自检)。
 
 > [!tip] 供应链安全
 > `install.ps1` 执行 `npm install`(enhanced 依赖已由 `package-lock.json` 锁定)。建议安装后 `cd enhanced && npm audit --audit-level=high` 复核。

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="main"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="player"]
@@ -10,8 +10,23 @@ size = Vector3(20, 1, 20)
 [sub_resource type="BoxMesh" id="ground_mesh"]
 size = Vector3(20, 1, 20)
 
+[sub_resource type="Environment" id="env_3d"]
+background_mode = 1
+background_color = Color(0.53, 0.7, 0.93, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.6, 0.7, 0.8, 1)
+ambient_light_energy = 0.5
+
 [node name="Main" type="Node3D"]
 script = ExtResource("main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env_3d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.610865, 0.523599, 0)
+light_energy = 1.0
+shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

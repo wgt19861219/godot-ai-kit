@@ -24,15 +24,15 @@
 | 组件 | 版本 | commit pin | 成熟度 | 验证状态 |
 |------|------|-----------|--------|---------|
 | **godot-ai-kit**(本套件) | v0.1.0 | — | MVP | 🟡 手动验证 |
-| enhanced | v0.18.1+(fix/review-verification 分支) | `0b54d1b` | 🟢 稳定(~950 测试) | 🟡 手动验证 |
+| enhanced | v0.18.1+(fix/review-verification 分支) | `f7cab67` | 🟢 稳定(~950 测试) | 🟡 手动验证 |
 | GodotPrompter | v1.9.0(master) | `e09aa6d` | 🟡 较新 | 🟡 手动验证 |
 | gd-agentic-skills | main HEAD | `7fa21da` | 🔴 实验性(v0.0.6 预发布,API 可能变) | ⚠️ 未验证(实验性,仅引用不深度依赖) |
 | **Godot 引擎** | 4.5+ | — | — | 🟡 手动验证 |
 
 ### MVP pin 说明
 
-- **enhanced `0b54d1b`**:describe 显示 `v0.18.1-21-g0b54d1b`,即 v0.18.1 之后第 21 个 commit。相对上一 pin `1c03909`(`v0.18.1-15`)新增 6 个 commit,即 **GDScript 沙箱加固补丁 A+B**(C-SEC-02)。
-  > ⚠️ **pin 可达性提示(reviewer C1)**:`0b54d1b` 当前**仅在本地 `fix/review-verification` 分支领先 origin**(`origin/fix/review-verification` HEAD=`f0384c7`),尚未 push。外部 `git submodule update --init` 会因找不到该 commit 失败。**修复前不要打 tag/公开发布**:或 push `0b54d1b` 到 origin,或回退 pin 到 origin 可达的 `1c03909`。本矩阵如实记录实际 checkout 的 pin。
+- **enhanced `f7cab67`**:describe 显示 `v0.18.1-22-gf7cab67`,即 v0.18.1 之后第 22 个 commit。在上一 pin `0b54d1b`(`v0.18.1-21`,GDScript 沙箱加固补丁 A+B)基础上 +1 commit:移除 `extends Node` 虚函数 `super()`(修复 Godot 4.6.2 `_ready`/`_exit_tree` Parse error,详见 `UPGRADING.md`「Godot 4.6+ Bridge 修复」)。
+  > ✅ **pin 可达性(reviewer C1 已闭合)**:`f7cab67` 已在 `origin/fix/review-verification` 可达(`git branch -r --contains f7cab67` 确认),外部 `git submodule update --init` 可正常拉取。上一 pin `0b54d1b` 的「未 push origin、修复前不要打 tag」警告随本次 push 闭合。
 - **GodotPrompter `e09aa6d`**:pin 在 master 的 v1.9.0 之后第 1 个 commit(`v1.9.0-1-ge09aa6d`)。用户指令标注 v1.9.0。
 - **gd-agentic-skills `7fa21da`**:pin 在 main HEAD。该子模块无 tag(`git describe` 报错),按 main 分支 commit pin。**实验性**,套件仅做指针/索引引用,不修改其源文件(规避 LGPLv3 派生义务,见 NOTICE 与 spec §8.1)。
 - **Godot 4.5+**:enhanced v0.18.x 要求 Godot 4.4+,套件 MVP 锁 4.5+ 以用上 4.5 的新 API。
@@ -75,7 +75,7 @@ gd-agentic 当前 v0.0.6 预发布,API 可能变:
 
 | 套件版本 | 发布日期 | enhanced | GodotPrompter | gd-agentic | Godot | 验证状态 |
 |---------|---------|----------|---------------|-----------|-------|---------|
-| v0.1.0 | 2026-06-17 | `0b54d1b` | `e09aa6d` | `7fa21da` | 4.5+ | 🟡 手动 |
+| v0.1.0 | 2026-06-17 | `f7cab67` | `e09aa6d` | `7fa21da` | 4.5+ | 🟡 手动 |
 
 ---
 

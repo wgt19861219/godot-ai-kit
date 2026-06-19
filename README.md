@@ -4,6 +4,7 @@ AI Godot 开发环境套装——把 godot-mcp-enhanced(执行层)+ GodotPrompte
 
 > [!warning] gd-agentic-skills 为实验性子模块(v0.0.6 预发布,API 可能变)
 > 本套件对其仅做指针/索引引用(LGPLv3 真聚合,不修改其源文件)。深度调用其蓝图/技能可能在后续版本失效,详见 `docs/compatibility-matrix.md`。
+> **另**:2026-06-19 深审发现技能库 **6 CRITICAL**(含 `offline_save_sync.gd` 硬编码密钥)。`load_skill` 召回的 scripts 是**参考代码,复制到生产前必须人工审**,详见 `docs/enhanced-boundaries.md` #12。
 
 ## 快速开始
 ```powershell

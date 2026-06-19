@@ -57,7 +57,8 @@ func _input(event: InputEvent) -> void:
 			# Vector2 乘标量为逐分量乘,两分量同比 → 保等比(C3)。
 			var positions: Array = _pinch.values()
 			var cur_dist: float = positions[0].distance_to(positions[1])
-			# start_dist 为 0 时(两指同点)跳过,防除零。
+			# start_dist 为 0 时(两指同点落指,合法但无 pinch 意义)跳过防除零 → 此场景 pinch 静默吞
+			# (用户须分开两指重落;见 SKILL Gotchas "同点落指吞 pinch"。生产可加最小指距阈值提示)。
 			if _pinch_start_dist > 0.0:
 				var ratio: float = cur_dist / _pinch_start_dist
 				_set_zoom_clamped(_pinch_start_zoom * ratio)

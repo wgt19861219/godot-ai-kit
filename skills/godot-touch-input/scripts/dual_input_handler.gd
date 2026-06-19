@@ -23,7 +23,7 @@ func _input(event: InputEvent) -> void:
 			touch_occurred.emit(event.position)
 	elif event is InputEventMouseButton:
 		# C2 双兼容:桌面鼠标左键等价触摸,同样需 pressed 守卫(M2)。
-		# 仅主键(左键);右键/中键等不等价触摸。
+		# 仅主键(左键)等价触摸;右键/中键等**静默忽略**(非 LEFT 不触发 touch_occurred)。
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			touch_occurred.emit(event.position)
 	elif event is InputEventScreenDrag:

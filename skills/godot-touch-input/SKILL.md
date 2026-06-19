@@ -41,6 +41,8 @@ Camera2D 平移 + 双指缩放 + 桌面滚轮。pan 用 `Vector2.ONE/zoom`(Vecto
 - **headless 测不出真实触摸**:触屏硬件事件只有真机/模拟器产生;headless 只能构造 `InputEvent` 实例验**逻辑分支**(pressed 守卫 / 双兼容 / Vector2 factor),**手感/惯性须真机人工**。
 - **`_input` 穿透**:点 UI 按钮(暂停/菜单)会先经 `_input` 再到 GUI → camera pan 误触发。生产用 `_unhandled_input`(S2)。
 - **mouse drag 无 pressed 字段**:`InputEventMouseMotion` 不带 pressed,须查 `Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)` 判断是否拖动中。
+- **MouseMotion 桌面 drag 真机覆盖**(review Minor 3):`Input` 单例难在 headless 注入,MouseMotion 分支(drag 桌面半边)无 headless 正向测试 → 须**真机覆盖**。`test/dual_input_handler_test.gd` 覆盖 touch/mouse 按下 + ScreenDrag,MouseMotion 真机补。
+- **同点落指吞 pinch**(review Minor 2):`_pinch_start_dist == 0`(两指同点,合法)时防除零守卫**静默吞 pinch** —— 用户须分开两指重落。生产可加最小指距阈值提示。
 - **Camera2D-only**:Camera3D 无 `zoom`,3D 须改 `fov`/`size`(A6,另开 spec)。
 
 ## Reference

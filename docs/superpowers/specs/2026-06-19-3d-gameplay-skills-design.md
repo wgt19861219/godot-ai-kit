@@ -140,7 +140,7 @@ skills/
 | Case | query(与 dogfood 原始 query 同构) | 断言 |
 |---|---|---|
 | A | `CharacterBody3D movement NEVER` | 新 `godot-characterbody-3d` score > 现有 `godot-characterbody-2d` |
-| B | `Area3D body_entered signal collectible pickup` | 新 `godot-area3d-collection` score > 现有最优(`csharp-signals`/`godot-2d-physics` 等,见 production-log:28) |
+| B | `Area3D body_entered signal collectible pickup` | 新 `godot-area3d-collection` 是该 query 召回的**第一名**(> 现有最高分;production-log:28 现状为 `csharp-signals`/`godot-2d-physics` 等) |
 
 实测参考(脚本预跑,权威以真实 load_skill 为准):query1 → 新 ≈0.6 vs 现有 characterbody-2d ≈0.3。
 
@@ -211,6 +211,8 @@ for (const q of [
 两个脚本精简自 demo 已验证代码(经 F14–F16 修复 + WASD 人工实测,是"活教材")。
 
 ### 8.1 `camera_relative_movement.gd` ← `demo/scenes/player.gd`
+
+> **演进说明(消歧)**:`production-log:184` 记录的 F15 修复是**世界坐标**(`Vector3(input_dir.x, 0, input_dir.y)`,去 `transform.basis`)断反馈循环;`player.gd` 最终版在鼠标相机(2026-06-18)后**演进为相机臂 basis**(第三人称相对移动,更优)。本脚本取最终版——与 production-log 中间态的此落差是演进,非矛盾。
 
 **保留三件套**(camera_relative 之名所系,不可砍):
 - `spring_arm.global_transform.basis` 取向(相机相对移动的物理载体,F15 核心)

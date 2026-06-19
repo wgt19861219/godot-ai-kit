@@ -10,8 +10,13 @@ Copyright 2026 wgt (MIT License)
 粘合层(CLAUDE.md/rules/workflow/install/demo/docs)只用指针/索引引用子模块内容,
 不复制或改写任何知识源文件——LGPLv3 真聚合豁免的前提。
 
-套件根 skills/ 为本仓库**原创**知识(MIT,如 godot-characterbody-3d / godot-area3d-collection),
-从 dogfood 实测提炼,非复制或改写任何子模块源文件;事实性引擎 API 用法迁移加出处注释,
+套件根 skills/ 为本仓库**原创**知识(MIT,如 godot-characterbody-3d / godot-area3d-collection / godot-touch-input),
+从 dogfood 实测或 clean-room 提炼,非复制或改写任何子模块源文件;事实性引擎 API 用法迁移加出处注释,
 文案表达(NEVER 措辞)原创重写,不逐字复制上游 LGPLv3 skill。
+
+> godot-touch-input(clean room,disposal §5.2):基于 Godot 4 官方 InputEvent 文档原创,
+> 覆盖 gd-agentic adapt-desktop-to-mobile 的 C2/C3 camera 输入场景(双兼容 ScreenTouch+MouseButton /
+> event.pressed 守卫 / Vector2 等比 zoom);实现 agent 未接触 adapt-desktop-to-mobile 原文,
+> 仅 camera 场景退役(joystick/gesture 无套件 .gd 替代,adapt 版仍召回)。
 
 > 注:enhanced upstream URL 的可达性依赖其 fork 仓库公开 + pin 已推送 origin(见 `docs/compatibility-matrix.md` C1 脚注)。

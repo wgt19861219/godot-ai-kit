@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var total := 3
+@export var total: int = 3
 var score := 0
 var _collected: Dictionary = {}
 

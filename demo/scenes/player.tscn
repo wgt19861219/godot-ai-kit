@@ -6,7 +6,7 @@
 ; 节点树设计见 demo/docs/02-architecture-adr.md
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_player"]
-; 注:player.gd 由 ③ production 阶段创建(MVP 不存在,load 时需注释本行或创建空脚本)
+; player.gd 已存在(production 阶段创建,ExtResource :8 正常引用)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
 radius = 0.4
@@ -21,7 +21,7 @@ script = ExtResource("1_player")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_player")
-; 蓝色材质(MVP 用原色,v1 接低多边形资产)
+; 默认 CapsuleMesh,无材质引用(MVP 用原色;v1 可接低多边形资产)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_player")
@@ -29,7 +29,7 @@ shape = SubResource("CapsuleShape3D_player")
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
 spring_length = 4.0
-; 第三人称相机臂:v1 加旋转逻辑(鼠标 X/Y)
+; 第三人称相机臂:鼠标旋转已实现(player.gd _unhandled_input,非 v1 待办)
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

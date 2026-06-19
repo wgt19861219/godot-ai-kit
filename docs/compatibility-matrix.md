@@ -27,7 +27,7 @@
 | enhanced | v0.18.1+(fix/review-verification 分支) | `f7cab67` | 🟢 稳定(~950 测试) | 🟡 手动验证 |
 | GodotPrompter | v1.9.0(master) | `e09aa6d` | 🟡 较新 | 🟡 手动验证 |
 | gd-agentic-skills | main HEAD | `7fa21da` | 🔴 实验性(v0.0.6 预发布,API 可能变) | ⚠️ 未验证(实验性,仅引用不深度依赖) |
-| **Godot 引擎** | 4.5+ | — | — | 🟡 手动验证 |
+| **Godot 引擎** | 4.5+ | — | — | 🟡 手动验证（4.7 兼容验证 2026-06-19：execute_gdscript + 核心 .gd 解析 + run_and_verify demo 对照 4.6.2 零回归） |
 
 ### MVP pin 说明
 

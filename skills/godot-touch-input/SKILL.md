@@ -44,6 +44,7 @@ Camera2D 平移 + 双指缩放 + 桌面滚轮。pan 用 `Vector2.ONE/zoom`(Vecto
 - **MouseMotion 桌面 drag 真机覆盖**(review Minor 3):`Input` 单例难在 headless 注入,MouseMotion 分支(drag 桌面半边)无 headless 正向测试 → 须**真机覆盖**。`test/dual_input_handler_test.gd` 覆盖 touch/mouse 按下 + ScreenDrag,MouseMotion 真机补。
 - **同点落指吞 pinch**(review Minor 2):`_pinch_start_dist == 0`(两指同点,合法)时防除零守卫**静默吞 pinch** —— 用户须分开两指重落。生产可加最小指距阈值提示。
 - **Camera2D-only**:Camera3D 无 `zoom`,3D 须改 `fov`/`size`(A6,另开 spec)。
+- **Godot 4.7 device ID 变更**:4.7 起 mouse/keyboard 的 `InputEvent.device` 从 `0` 改为 `InputEvent.DEVICE_ID_MOUSE`(32)/`DEVICE_ID_KEYBOARD`(16)(GH-116274)。本 skill 按事件**类型**(`event is InputEventScreenTouch` 等)判断,不依赖 `device==0`,**不受影响**;若你的代码靠 `device==0` 判鼠标,4.7 须改用类型判断或常量。
 
 ## Reference
 

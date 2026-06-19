@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["${REPO_ROOT}/enhanced/build/index.js"],
       "env": {
-        "GODOT_SKILL_LIBRARIES": "${REPO_ROOT}/GodotPrompter/skills,${REPO_ROOT}/gd-agentic-skills/skills"
+        "GODOT_SKILL_LIBRARIES": "${REPO_ROOT}/GodotPrompter/skills,${REPO_ROOT}/gd-agentic-skills/skills,${REPO_ROOT}/skills"
       }
     }
   }

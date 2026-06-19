@@ -27,6 +27,7 @@ MVP 套件构建时执行上述 script，超限则 fail：
 ```yaml
 # .github/workflows/token-budget-check.yml
 - name: 验证 token 预算
+  shell: pwsh
   run: |
     $content = (Get-Content CLAUDE.md -Raw).Length
     $rules = (Get-ChildItem rules -Recurse -Filter *.md | ForEach-Object { (Get-Content $_.FullName -Raw).Length } | Measure-Object -Sum).Sum

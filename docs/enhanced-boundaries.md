@@ -184,3 +184,11 @@
 - **风险**:文案误导用户设 `GODOT_MCP_UNRESTRICTED=true` "修复"不存在的问题,反而降低安全。
 - **修复**:enhanced `fix/review-verification` commit `1c03909` 已改 info 级 + deny-by-default 实际文案。套件 pin 已 bump。
 - **降级可靠性**:🟢 可靠——纯文案修复,无行为变化。
+
+### #12 load_skill 召回的参考代码风险(2026-06-19 深审,🟡 复制前必审)
+
+- **现象**:`load_skill` 召回的 gd-agentic-skills / GodotPrompter scripts 是**参考代码**(教学示例),非生产代码。2026-06-19 深审发现 gd-agentic 技能库 **6 CRITICAL**——已核实 `godot-adapt-desktop-to-mobile/scripts/offline_save_sync.gd:28,38` 硬编码密钥 `"secure_mobile_key_123!"` + `store_var/get_var` 无完整性校验(存档可解密+篡改);其余(移动端缺 InputEventMouseButton 分支 / fake_gi_bounce 动态光泄漏 / transparency_sorting_fix 未判 null 必崩)见审查报告。
+- **影响阶段**:全阶段(凡 load_skill 召回 + 复制 scripts 到项目)
+- **风险放大**:参考代码被 AI/用户**复制粘贴**到真实项目 → 直接带入 CRITICAL(硬编码密钥 / null 崩溃 / 光泄漏)。
+- **套件层处置**(不改 gd-agentic 源,LGPLv3 真聚合):**load_skill 召回的 scripts 复制到生产前必须人工审**;套件原创 `skills/`(characterbody-3d / area3d-collection)是已验证代码,可信。完整清单见 `D:\workspace\review\.claude\reviews\2026-06-19-godot-ai-kit-skills-scripts-review.md`(6 CRITICAL + 29 IMPORTANT + 27 ADVISORY)。可向上游 `thedivergentai/godot-agentic-skills` 报 issue。
+- **降级可靠性**:🟡 有条件——load_skill 召回本身可靠(数据层),但召回内容是参考代码,复制到生产前必须审。
